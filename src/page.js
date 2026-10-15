@@ -27,8 +27,6 @@ export const page = `<!doctype html>
   th { font-weight: 600; white-space: nowrap; }
   td.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .8rem; word-break: break-all; }
   td.s304 { color: #b45309; font-weight: 600; }
-  details { margin-top: 1.5rem; }
-  pre { background: #f6f7f9; padding: .75rem; border-radius: .5rem; overflow: auto; font-size: .8rem; }
   code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
   @media (prefers-color-scheme: dark) {
     body { background: #111; color: #eee; }
@@ -36,51 +34,33 @@ export const page = `<!doctype html>
     button { background: #1f2937; color: #eee; border-color: #444; }
     button:hover { background: #374151; }
     th, td { border-color: #333; }
-    pre { background: #1b1b1b; }
   }
 </style>
 </head>
 <body>
 <h1>ETag と 304 のデモ</h1>
 <p class="lead">
-  同じ <code>/api/contacts</code> を繰り返し取得して、<code>304 Not Modified</code> が
-  「サーバーとブラウザの間」で起きていることを確かめるページです。
   <strong>DevTools の Network タブを開いてから</strong>ボタンを押してください。
+  表と Network タブを見比べられます。
 </p>
 
 <div class="buttons">
   <button id="first">1回目を fetch</button>
   <button id="second">2回目を fetch</button>
-  <button id="manual">手動で If-None-Match を付けて fetch</button>
+  <button id="manual">If-None-Match を付けて fetch</button>
 </div>
-<p class="hint">
-  「2回目」の通信は 304 ですが、JS に届くのは 200 とボディです（ブラウザがキャッシュから差し替える）。
-  「手動で If-None-Match」のときだけ 304 がそのまま JS に届き、<code>res.ok</code> は false、ボディは空になります。
-</p>
 
 <table>
   <thead>
     <tr>
-      <th>操作</th><th>status</th><th>res.ok</th><th>ETag</th><th>X-Handler-Runs</th><th>JS が受け取ったボディ</th>
+      <th>押したボタン</th><th>status</th><th>res.ok</th><th>ETag</th><th>X-Handler-Runs</th><th>JS が受け取ったボディ</th>
     </tr>
   </thead>
   <tbody id="rows"></tbody>
 </table>
 <p class="hint">
-  <code>X-Handler-Runs</code> はサーバー側のハンドラ実行回数です（他の人のアクセスでも増えるので、開始値は人によって違います）。
-  304 を返した回でも値が増えていれば、「304 で減るのは転送量だけで、DB を引いて JSON を作る処理は毎回動いている」ことが確認できます。
+  <code>X-Handler-Runs</code> はサーバー側のハンドラ実行回数で、訪問者全員の分が積み上がります。
 </p>
-
-<details>
-  <summary>コンソールで同じことをする</summary>
-  <pre><code>for (const label of ['1回目', '2回目']) {
-  const res = await fetch('/api/contacts')
-  console.log(label, res.status, res.ok, await res.text())
-}
-const etag = (await fetch('/api/contacts')).headers.get('etag')
-const res = await fetch('/api/contacts', { headers: { 'If-None-Match': etag } })
-console.log('手動で If-None-Match', res.status, res.ok, JSON.stringify(await res.text()))</code></pre>
-</details>
 
 <script>
 const rows = document.getElementById('rows')
@@ -117,11 +97,11 @@ document.getElementById('second').addEventListener('click', function () {
 
 document.getElementById('manual').addEventListener('click', async function () {
   if (!lastEtag) await run('(ETag 取得)', undefined)
-  await run('手動で If-None-Match', { headers: { 'If-None-Match': lastEtag } })
+  await run('If-None-Match を付けて fetch', { headers: { 'If-None-Match': lastEtag } })
 })
 </script>
 
-<p class="hint">ソース: <a href="https://github.com/yoshi47/hono-etag-304-demo">yoshi47/hono-etag-304-demo</a></p>
+<p class="hint">ソースコードは <a href="https://github.com/yoshi47/hono-etag-304-demo">yoshi47/hono-etag-304-demo</a> です。</p>
 </body>
 </html>
 `
