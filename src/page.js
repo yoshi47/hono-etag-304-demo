@@ -59,7 +59,7 @@ export const page = `<!doctype html>
   <tbody id="rows"></tbody>
 </table>
 <p class="hint">
-  <code>X-Handler-Runs</code> はサーバー側のハンドラ実行回数で、訪問者全員の分が積み上がります。
+  <code>X-Handler-Runs</code> はサーバーがハンドラを実行した回数
 </p>
 
 <script>
@@ -101,7 +101,7 @@ document.getElementById('manual').addEventListener('click', async function () {
 })
 </script>
 
-<p class="hint">ソースコードは <a href="https://github.com/yoshi47/hono-etag-304-demo">yoshi47/hono-etag-304-demo</a> です。</p>
+<p class="hint"><a href="https://github.com/yoshi47/hono-etag-304-demo">yoshi47/hono-etag-304-demo</a></p>
 </body>
 </html>
 `
