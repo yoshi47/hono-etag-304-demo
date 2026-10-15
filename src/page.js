@@ -67,8 +67,8 @@ export const page = `<!doctype html>
   <tbody id="rows"></tbody>
 </table>
 <p class="hint">
-  <code>X-Handler-Runs</code> はサーバー側のハンドラ実行回数です。304 を返した回でも値が増えていれば、
-  「304 で減るのは転送量だけで、DB を引いて JSON を作る処理は毎回動いている」ことが確認できます。
+  <code>X-Handler-Runs</code> はサーバー側のハンドラ実行回数です（他の人のアクセスでも増えるので、開始値は人によって違います）。
+  304 を返した回でも値が増えていれば、「304 で減るのは転送量だけで、DB を引いて JSON を作る処理は毎回動いている」ことが確認できます。
 </p>
 
 <details>
@@ -120,6 +120,8 @@ document.getElementById('manual').addEventListener('click', async function () {
   await run('手動で If-None-Match', { headers: { 'If-None-Match': lastEtag } })
 })
 </script>
+
+<p class="hint">ソース: <a href="https://github.com/yoshi47/hono-etag-304-demo">yoshi47/hono-etag-304-demo</a></p>
 </body>
 </html>
 `
