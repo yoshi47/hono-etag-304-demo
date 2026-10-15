@@ -4,6 +4,13 @@ export const page = `<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ETag と 304 のデモ</title>
+<meta name="description" content="ETag と If-None-Match で 304 が返る流れを、DevTools の Network タブで確かめるページです。">
+<meta property="og:title" content="ETag と 304 のデモ">
+<meta property="og:description" content="同じ URL を繰り返し取得して、2回目の通信だけ 304 になるのを見る。JS に届くのは 200 とボディです。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hono-etag-304-demo.yoshi47.workers.dev/">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2318181b'/%3E%3Ctext x='16' y='22' font-family='ui-monospace,Menlo,monospace' font-size='14' font-weight='700' fill='%23fff' text-anchor='middle'%3E304%3C/text%3E%3C/svg%3E">
 <style>
   :root {
     --fg: #18181b;
