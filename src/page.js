@@ -51,6 +51,8 @@ export const page = `<!doctype html>
     cursor: pointer; transition: background .12s, border-color .12s;
   }
   button:hover { background: var(--hover); }
+  button:disabled { opacity: .45; cursor: not-allowed; }
+  button:disabled:hover { background: var(--surface); }
   button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
   .field:focus-within { border-color: var(--accent); }
 
@@ -89,7 +91,7 @@ export const page = `<!doctype html>
 
 <div class="controls">
   <button id="fetch">fetch</button>
-  <button id="manual">If-None-Match を付けて fetch</button>
+  <button id="manual" disabled title="先に fetch を押すと使えます">If-None-Match を付けて fetch</button>
   <span class="sep"></span>
   <label class="field">
     <span class="prefix">name=</span>
@@ -150,6 +152,7 @@ async function run(path, req, init) {
   const body = await res.text()
   const etag = res.headers.get('etag')
   if (etag) etags[path] = etag
+  if (etags[plain]) document.getElementById('manual').disabled = false
   addRow(req, res.status, res.ok, etag, res.headers.get('x-handler-runs'), body)
 }
 
@@ -157,9 +160,8 @@ document.getElementById('fetch').addEventListener('click', function () {
   run(plain, { url: plain }, undefined)
 })
 
-document.getElementById('manual').addEventListener('click', async function () {
-  if (!etags[plain]) await run(plain, { url: plain }, undefined)
-  await run(plain, { url: plain, header: 'If-None-Match' }, { headers: { 'If-None-Match': etags[plain] } })
+document.getElementById('manual').addEventListener('click', function () {
+  run(plain, { url: plain, header: 'If-None-Match' }, { headers: { 'If-None-Match': etags[plain] } })
 })
 
 document.getElementById('rename').addEventListener('click', function () {
