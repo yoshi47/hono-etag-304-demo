@@ -83,13 +83,12 @@ export const page = `<!doctype html>
 <body>
 <h1>ETag と 304 のデモ</h1>
 <p class="lead">
-  <strong>DevTools の Network タブを開いてから</strong>ボタンを押してください。
+  <strong>DevTools の Network タブを開いてから</strong>fetch を何度か押してください。
   表と Network タブを見比べられます。
 </p>
 
 <div class="controls">
-  <button id="first">1回目を fetch</button>
-  <button id="second">2回目を fetch</button>
+  <button id="fetch">fetch</button>
   <button id="manual">If-None-Match を付けて fetch</button>
   <span class="sep"></span>
   <label class="field">
@@ -154,11 +153,7 @@ async function run(path, req, init) {
   addRow(req, res.status, res.ok, etag, res.headers.get('x-handler-runs'), body)
 }
 
-document.getElementById('first').addEventListener('click', function () {
-  run(plain, { url: plain }, undefined)
-})
-
-document.getElementById('second').addEventListener('click', function () {
+document.getElementById('fetch').addEventListener('click', function () {
   run(plain, { url: plain }, undefined)
 })
 
