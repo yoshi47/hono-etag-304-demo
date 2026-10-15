@@ -20,7 +20,8 @@ app.get('/', (c) => c.html(page))
 app.get('/api/contacts', (c) => {
   handlerRuns += 1
   console.log('  handler: DB を引いて JSON を作った')
-  return c.json({ data: [{ id: 1, name: 'taro' }] })
+  const name = c.req.query('name') ?? 'taro'
+  return c.json({ data: [{ id: 1, name }] })
 })
 
 export default app
