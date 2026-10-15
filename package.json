@@ -1,0 +1,19 @@
+{
+  "name": "hono-etag-304-demo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "ETag / If-None-Match / 304 の挙動をブラウザの DevTools で確かめる最小デモ（Hono + Cloudflare Workers）",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "@hono/node-server": "^2.1.5",
+    "hono": "^4.13.13"
+  },
+  "devDependencies": {
+    "wrangler": "^4.151.0"
+  }
+}
